@@ -49,10 +49,42 @@ verifier_espaces(){
     fi           
 }
 
+verifier_header(){
+    fichier_h=$(find . -maxdepth 1 -name "*.h")
+
+    if [ -z $fichier_h ]; then
+        echo "Aucun fichier header trouvé"
+        note=$((note - 2))
+    else
+        echo " Fichier header trouvé : $fichier_h"
+    fi
+}
+
+verifier_make_clean() {
+    make >/dev/null 2>&1
+
+    if [ ! -f "./factorielle" ]; then
+        echo "Compilation échouée ou exécutable absent"
+        note=$((note - 2))
+        return
+    fi
+
+    make clean >/dev/null 2>&1
+
+    if [ -f "./factorielle" ]; then
+        echo "make clean ne supprime pas l'exécutable"
+        note=$((note - 2))
+    else
+        echo "make clean fonctionne correctement"
+    fi
+}
+
 verifier_longueur_lignes "main.c"
 verifier_longueur_lignes "header.h"
 verifier_espaces "main.c"
 verifier_espaces "header.h"
+verifier_header
+verifier_make_clean
 
 echo "Note finale de $prenom $nom : $note/20"
 
