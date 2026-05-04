@@ -14,7 +14,7 @@ verifier_longueur_lignes() {
     done < "$fichier"
 
     if [ "$too_long" -eq 1 ]; then
-        echo "Code de plus de 80 caractères détecté dans $fichier" >&2
+        echo "Code de plus de 80 caracteres detecte dans $fichier" >&2
         note=$((note - 2))
     fi
 }
@@ -28,7 +28,7 @@ verifier_espaces(){
         [ -z "$ligne" ] && continue #ignore le vide
         [[ "$ligne" == "}"* ]] && continue #ignore les {}
 
-        espaces=$(echo "$ligne" | sed 's/[^ ].*//') #supprime tout sauf les espaces du début
+        espaces=$(echo "$ligne" | sed 's/[^ ].*//') #supprime tout sauf les espaces du debut
         nb_espaces=${#espaces}
         
         if [ $nb_espaces -gt 0 ] && [ $((nb_espaces %2)) -ne 0 ]; then
@@ -47,10 +47,10 @@ verifier_header(){
     fichier_h=$(find . -maxdepth 1 -name "*.h")
 
     if [ -z $fichier_h ]; then
-        echo "Aucun fichier header trouvé" >&2
+        echo "Aucun fichier header trouve" >&2
         note=$((note - 2))
     else
-        echo " Fichier header trouvé : $fichier_h" >&2
+        echo " Fichier header trouve : $fichier_h" >&2
     fi
 }
 
@@ -58,7 +58,7 @@ verifier_make_clean() {
     make >/dev/null 2>&1
 
     if [ ! -f "./factorielle" ]; then
-        echo "Compilation échouée ou exécutable absent" >&2
+        echo "Compilation echouee ou executable absent" >&2
         note=$((note - 2))
         return
     fi
@@ -66,7 +66,7 @@ verifier_make_clean() {
     make clean >/dev/null 2>&1
 
     if [ -f "./factorielle" ]; then
-        echo "make clean ne supprime pas l'exécutable" >&2
+        echo "make clean ne supprime pas l'executable" >&2
         note=$((note - 2))
     else
         echo "make clean fonctionne correctement" >&2
