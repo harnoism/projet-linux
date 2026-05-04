@@ -11,6 +11,8 @@ fact() {
 
 note=0
 
+
+
 # 1) Compilation
 make >/dev/null 2>&1
 if [ ! -f factorielle ]; then
@@ -19,8 +21,8 @@ if [ ! -f factorielle ]; then
 fi
 note=$((note+2))
 
-# 2) Signature exacte : int factorielle( int number )
-if grep -Rqx 'int factorielle( int number )' *.c 2>/dev/null; then
+
+if grep -Pqs 'int factorielle\( int number \)\r?$' *.c 2>/dev/null; then
     note=$((note+2))
 fi
 
